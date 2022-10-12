@@ -57,37 +57,5 @@ public class Game : MonoBehaviour
                 m_audio.PlayOneShot(thudSound);
             }
         }
-
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            // for touch
-            Vector2 inputTouch = Input.GetTouch(0).position;
-            Ray touchRay = Camera.main.ScreenPointToRay(inputTouch);
-            RaycastHit2D hitTouch = Physics2D.Raycast(touchRay.origin, touchRay.direction);
-            if (hitTouch)
-            {
-                GameObject hitObj = hitTouch.collider.gameObject;
-                for (int i = 0; i < 9; ++i)
-                {
-                    Transform curr = transform.GetChild(i);
-                    if (curr.gameObject == hitObj)
-                    {
-                        Mole m = curr.gameObject.GetComponent<Mole>();
-                        if (m.Hit())
-                        {
-                            counter += 1;
-                            string temp = "Score: " + counter.ToString();
-                            m_text.SetText(temp);
-                            m_audio.PlayOneShot(bunkSound);
-                        }
-                    }
-                }
-                m_audio.PlayOneShot(thudSound);
-            }
-            else
-            {
-                m_audio.PlayOneShot(thudSound);
-            }
-        }
     }
 }
