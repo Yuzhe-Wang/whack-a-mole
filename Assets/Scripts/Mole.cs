@@ -29,36 +29,45 @@ public class Mole : MonoBehaviour
     {
         // get the animator component
         m_anim = GetComponent<Animator>();
+        StartCoroutine(waitForUp());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("Hole") && !HoleToUpStarted)
-        {
-            HoleToUpStarted = true;
-            StartCoroutine(waitForUp());
-        }
-        if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("Up"))
-        {
-            HoleToUpStarted = false;
-        }
-        if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !IdleToDownStarted)
-        {
-            IdleToDownStarted = true;
-            StartCoroutine(waitForDown());
-        }
-        if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("Down"))
-        {
-            IdleToDownStarted = false;
-        }
+        //if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("Hole") && !HoleToUpStarted)
+        //{
+        //    HoleToUpStarted = true;
+        //    StartCoroutine(waitForUp());
+        //}
+        //if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("Up"))
+        //{
+        //    HoleToUpStarted = false;
+        //}
+        //if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !IdleToDownStarted)
+        //{
+        //    IdleToDownStarted = true;
+        //    StartCoroutine(waitForDown());
+        //}
+        //if (m_anim.GetCurrentAnimatorStateInfo(0).IsName("Down"))
+        //{
+        //    IdleToDownStarted = false;
+        //}
+
     }
 
     IEnumerator waitForUp()
     {
-        yield return new WaitForSeconds(HoleToUpTime);
-        m_anim.SetTrigger("getUp");
+        while(true)
+        {
+            yield return new WaitForSeconds(HoleToUpTime);
+            m_anim.SetTrigger("getUp");
+            m_anim.ResetTrigger("getDown");
+            yield return new WaitForSeconds(IdleToDownTime);
+            m_anim.SetTrigger("getDown");
+        }
     }
+        
 
     IEnumerator waitForDown()
     {
